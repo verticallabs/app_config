@@ -1,0 +1,6 @@
+test:
+  category:
+    setting: 'very yes'
+development:
+  category:
+    setting: 'very maybe'

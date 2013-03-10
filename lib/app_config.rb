@@ -29,7 +29,14 @@ class AppConfig
       init_hash = {}
 
       config_files.each do |config_file|
-        init_hash.merge!({config_file.to_s => YAML.load_file(File.join(Rails.root, 'config', "#{config_file}.yml"))[Rails.env]})
+        hash = YAML.load_file(File.join(Rails.root, 'config', "#{config_file}.yml"))
+
+        # if this file is subdivided by environment, use the correct one
+        if hash[Rails.env]
+          init_hash.merge!({config_file.to_s => hash[Rails.env]})
+        else
+          init_hash.merge!({config_file.to_s => hash})
+        end
       end
 
       if ['test', 'development'].include?(Rails.env)
